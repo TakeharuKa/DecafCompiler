@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_decaf_pa1_b" default="compile.module.decaf_pa1_b">
+  <dirname property="module.decaf_pa1_b.basedir" file="${ant.file.module_decaf_pa1_b}"/>
+  
+  <property name="module.jdk.home.decaf_pa1_b" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.decaf_pa1_b" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.decaf_pa1_b" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.decaf_pa1_b" value="-encoding UTF-8 -source 9 -target 9 ${compiler.args}"/>
+  
+  <property name="decaf_pa1_b.output.dir" value="${module.decaf_pa1_b.basedir}/out/production/decaf_PA1_B"/>
+  <property name="decaf_pa1_b.testoutput.dir" value="${module.decaf_pa1_b.basedir}/out/test/decaf_PA1_B"/>
+  
+  <path id="decaf_pa1_b.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="decaf_pa1_b.module.production.classpath">
+    <path refid="${module.jdk.classpath.decaf_pa1_b}"/>
+  </path>
+  
+  <path id="decaf_pa1_b.runtime.production.module.classpath">
+    <pathelement location="${decaf_pa1_b.output.dir}"/>
+  </path>
+  
+  <path id="decaf_pa1_b.module.classpath">
+    <path refid="${module.jdk.classpath.decaf_pa1_b}"/>
+    <pathelement location="${decaf_pa1_b.output.dir}"/>
+  </path>
+  
+  <path id="decaf_pa1_b.runtime.module.classpath">
+    <pathelement location="${decaf_pa1_b.testoutput.dir}"/>
+    <pathelement location="${decaf_pa1_b.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.decaf_pa1_b">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.decaf_pa1_b">
+    <patternset refid="excluded.from.module.decaf_pa1_b"/>
+  </patternset>
+  
+  <path id="decaf_pa1_b.module.sourcepath">
+    <dirset dir="${module.decaf_pa1_b.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.decaf_pa1_b" depends="compile.module.decaf_pa1_b.production,compile.module.decaf_pa1_b.tests" description="Compile module decaf_PA1_B"/>
+  
+  <target name="compile.module.decaf_pa1_b.production" depends="register.custom.compilers" description="Compile module decaf_PA1_B; production classes">
+    <mkdir dir="${decaf_pa1_b.output.dir}"/>
+    <javac2 destdir="${decaf_pa1_b.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.decaf_pa1_b}/javac">
+      <compilerarg line="${compiler.args.decaf_pa1_b}"/>
+      <bootclasspath refid="decaf_pa1_b.module.bootclasspath"/>
+      <classpath refid="decaf_pa1_b.module.production.classpath"/>
+      <src refid="decaf_pa1_b.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.decaf_pa1_b"/>
+    </javac2>
+    
+    <copy todir="${decaf_pa1_b.output.dir}">
+      <fileset dir="${module.decaf_pa1_b.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.decaf_pa1_b.tests" depends="register.custom.compilers,compile.module.decaf_pa1_b.production" description="compile module decaf_PA1_B; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.decaf_pa1_b" description="cleanup module">
+    <delete dir="${decaf_pa1_b.output.dir}"/>
+    <delete dir="${decaf_pa1_b.testoutput.dir}"/>
+  </target>
+</project>
